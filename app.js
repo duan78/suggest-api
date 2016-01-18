@@ -31,17 +31,22 @@ app.get('/sug', function (req, res) {
     }
 
     if ( TYPE == 'aab' ) {
-        var numberToDo = 26;
-        for(var i=97; i<123; i++) {
-            var abc = String.fromCharCode(i);
-            var bc = String.fromCharCode(i);
-            var myKW = KW + ' ' + abc + bc;
-            var tempI = i - 97;
-            querySuggest(myKW, tempI, function(sortie, indice){
-                if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
-                numberOfDone++;
-            });
+        var numberToDo = 677;
+        var a = "abcdefghijklmnopqrstuvwxyz";
+        for (var i = 0; i < a.length; i++) {
+            for (var j = 0; j < a.length; j++) {
+                var myKW = KW + ' ' + a[i] + a[j];
+
+                querySuggest(myKW, tempI, function (sortie, indice) {
+                    if (sortie.length > 0) {
+                        arrsortie[indice] = sortie;
+                        console.log(arrsortie);
+                    }
+                    numberOfDone++;
+                });
+            }
         }
+
     }
 
     if ( TYPE == 'num' ) {
