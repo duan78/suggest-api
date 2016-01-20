@@ -9,6 +9,7 @@ app.get('/sug', function (req, res) {
     console.time("Délai");
     var arrsortie = {};
     var KW = req.query.KW ;
+    var SRC = req.query.SRC ;
     if (!KW) {
         res.send('Aucun mot clé');
         return;
@@ -23,7 +24,7 @@ app.get('/sug', function (req, res) {
             var abc = String.fromCharCode(i);
             var myKW = KW + ' ' + abc;
             var tempI = i - 97;
-            querySuggest(myKW, tempI, function(sortie, indice){
+            querySuggest(myKW, SRC, tempI, function(sortie, indice){
                 if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
                 numberOfDone++;
             });
@@ -31,29 +32,29 @@ app.get('/sug', function (req, res) {
     }
 
     if ( TYPE == 'aab' ) {
-        var numberToDo = 677;
+        //var numberToDo = 676;
         var a = "abcdefghijklmnopqrstuvwxyz";
+        var numberToDo = a.length * a.length;
         for (var i = 0; i < a.length; i++) {
             for (var j = 0; j < a.length; j++) {
                 var myKW = KW + ' ' + a[i] + a[j];
-
-                querySuggest(myKW, tempI, function (sortie, indice) {
+                var tempI = a[i] + a[j];
+                querySuggest(myKW, SRC, tempI, function (sortie, indice) {
                     if (sortie.length > 0) {
                         arrsortie[indice] = sortie;
-                        console.log(arrsortie);
+                        //console.log(arrsortie);
                     }
                     numberOfDone++;
                 });
             }
         }
-
     }
 
     if ( TYPE == 'num' ) {
         var numberToDo = 101;
         for ( var i = 0; i < 101; i++ ) {
             var myKW = KW + ' ' + i;
-            querySuggest(myKW, i, function(sortie, indice){ // function() => Fonction anonyme callback de la fonction querySuggest, est appelee lorsqu'une query est termineee
+            querySuggest(myKW, SRC, i, function(sortie, indice){ // function() => Fonction anonyme callback de la fonction querySuggest, est appelee lorsqu'une query est termineee
                 if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
                 numberOfDone++;
             });
@@ -63,7 +64,7 @@ app.get('/sug', function (req, res) {
     if ( !TYPE ) {
         numberToDo = 1;
         var myKW = KW;
-        querySuggest(myKW, 0, function(sortie, indice){
+        querySuggest(myKW, SRC, 0, function(sortie, indice){
             if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
             numberOfDone++;
         });
@@ -72,7 +73,7 @@ app.get('/sug', function (req, res) {
     if ( TYPE == 'pre' ) {
         numberToDo = 1;
         var myKW = "_" + KW + "_";
-        querySuggest(myKW, 0, function(sortie, indice){
+        querySuggest(myKW, SRC, 0, function(sortie, indice){
             if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
             numberOfDone++;
         });
@@ -107,8 +108,8 @@ app.get('/sug', function (req, res) {
     }, 10);
 });
 
-function querySuggest(KW, indice, callback) {
-    var url = "http://clients1.google.fr/complete/search?hl=fr&q=" + KW + "&json=t&client=hp";
+function querySuggest(KW, SRC, indice, callback) {
+    var url = "http://clients1.google.fr/complete/search?hl=fr&q=" + KW + "&json=t&client=hp&ds=" + SRC;
     var options = {
         url: url,
         encoding: null
