@@ -10,12 +10,16 @@ app.get('/sug', function (req, res) {
     var arrsortie = {};
     var KW = req.query.KW ;
     var SRC = req.query.SRC ;
+    var TYPE = req.query.TYPE;
     if (!KW) {
         res.send('Aucun mot clé');
         return;
     }
+    if (!SRC) {
+        res.send('Veuillez déclarer la source (&SRC=)');
+        return;
+    }
 
-    var TYPE = req.query.TYPE;
     var numberOfDone = 0;
 
     if ( TYPE == 'abc' ) {
