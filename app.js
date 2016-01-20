@@ -16,7 +16,7 @@ app.get('/sug', function (req, res) {
         return;
     }
     if (!SRC) {
-        res.send('Veuillez déclarer la source (&SRC=)');
+        res.send('Veuillez déclarer la source (&SRC=) \<br\> exemple youtube : &SRC=yt\<br\> exemple GG image : &SRC=i\<br\> exemple GG news : &SRC=n');
         return;
     }
 
@@ -113,7 +113,7 @@ app.get('/sug', function (req, res) {
 });
 
 function querySuggest(KW, SRC, indice, callback) {
-    var url = "http://clients1.google.fr/complete/search?hl=fr&q=" + KW + "&json=t&client=hp&ds=" + SRC;
+    var url = "http://www.bing.com/osjson.aspx?query=" + KW + "&json=t&client=hp&ds=" + SRC;
     var options = {
         url: url,
         encoding: null
@@ -131,3 +131,6 @@ function querySuggest(KW, SRC, indice, callback) {
         callback(sortie, indice);
     });
 }
+/*1 http://api.bing.com/osjson.aspx?query=John+Stuart&Market=en
+
+ */
