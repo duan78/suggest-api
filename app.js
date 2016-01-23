@@ -76,7 +76,7 @@ app.get('/sug', function (req, res) {
 
     if ( TYPE == 'pre' ) {
         numberToDo = 1;
-        var myKW = "_" + KW + "_";
+        var myKW = "_ " + KW;
         querySuggest(myKW, SRC, 0, function(sortie, indice){
             if ( sortie.length > 0 ) { arrsortie[indice] = sortie; /*console.log(arrsortie);*/ }
             numberOfDone++;
@@ -113,7 +113,7 @@ app.get('/sug', function (req, res) {
 });
 
 function querySuggest(KW, SRC, indice, callback) {
-    var url = "http://www.bing.com/osjson.aspx?query=" + KW + "&json=t&client=hp&ds=" + SRC;
+    var url = "http://clients1.google.fr/complete/search?hl=fr&q=" + KW + "&json=t&client=hp&ds=" + SRC;
     var options = {
         url: url,
         encoding: null
@@ -131,6 +131,6 @@ function querySuggest(KW, SRC, indice, callback) {
         callback(sortie, indice);
     });
 }
-/*1 http://api.bing.com/osjson.aspx?query=John+Stuart&Market=en
-
+/*1 http://api.bing.com/osjson.aspx?sources=spell&query=cofee
+ "http://clients1.google.fr/complete/search?hl=fr&q=" + KW + "&json=t&client=hp&ds=" + SRC;
  */
